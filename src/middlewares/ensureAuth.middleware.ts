@@ -12,7 +12,7 @@ const ensureAuthMiddleware = async(req: Request, res: Response, next: NextFuncti
         })
     }
 
-    jwt.verify(token, process.env.JWT_SECRET as string, (error:any, decoded:any) => {
+    jwt.verify(token, process.env.SECRET_KEY as string, (error:any, decoded:any) => {
         if(error){
             return res.status(401).json({
                 message: 'Invalid token'

@@ -26,7 +26,7 @@ const userLoginService = async ({ email, password }: IUserLogin) => {
       isAdm: account.isAdm,
       isActive: account.isActive,
     },
-    String(process.env.JWT_SECRET),
+    String(process.env.SECRET_KEY),
     { expiresIn: "24h" }
   );
 

@@ -14,11 +14,8 @@ const updateUserService = async (id: string, updatedData: any) => {
   // const account = users.find((user) => user.id === id);
 
 const account = await userRepository.findOneBy({id})
-console.log("-----------------------------",account?.id)
-console.log("-----------------------------",id)
-  // if (!account) {
-  //   throw new Error("There`s no user with the provided Id");
-  // }
+
+
 
   if (updatedData.password) {
     if (bcrypt.compareSync(updatedData.password, account!.password)) {

@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 import AppDataSource from "../data-source";
 import { User } from "../entities/user.entity";
 
-const verifyDeleteisAdmMiddleware = async (
+const verifyisActiveMiddleware = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -27,13 +27,10 @@ const verifyDeleteisAdmMiddleware = async (
   const account = users.find((user) => user.id === id);
 
   const token = req.headers.authorization?.split(" ")[1];
-  if (!token) {
-    return res.status(401).json({ message: "Invalid token" });
-  }
 
   jwt.verify(
     token as string,
-    process.env.JWT_SECRET as string,
+    process.env.SECRET_KEY as string,
     (err: any, decoded: any) => {
       if (decoded.isActive === true) {
         next();
@@ -48,4 +45,4 @@ const verifyDeleteisAdmMiddleware = async (
   );
 };
 
-export default verifyDeleteisAdmMiddleware;
+export default verifyisActiveMiddleware;

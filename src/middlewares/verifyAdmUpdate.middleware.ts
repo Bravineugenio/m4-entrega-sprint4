@@ -12,7 +12,7 @@ const verifyAdmUpdateMiddleware = async (
 
   jwt.verify(
     token as string,
-    process.env.JWT_SECRET as string,
+    process.env.SECRET_KEY as string,
     (err: any, decoded: any) => {
 
       if(!req.user.isAdm){

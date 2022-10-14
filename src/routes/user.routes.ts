@@ -7,21 +7,31 @@ import deleteUserController from "../controllers/deleteUser.controller";
 import getAllUsersController from "../controllers/getAllUsers.controller";
 import updateUserController from "../controllers/updateUser.controller";
 import userLoginController from "../controllers/userLogin.controller";
-import verifyDeleteisAdmMiddleware from "../middlewares/deleteIsAdmin.middleware";
-import verifyisAdmMiddleware from "../middlewares/isAdmin.middleware";
+
+import verifyisActiveMiddleware from "../middlewares/verifyIsActive.middleware";
+import verifyisAdmMiddleware from "../middlewares/verifyIsAdmin.middleware";
 import verifyAdmUpdateMiddleware from "../middlewares/verifyAdmUpdate.middleware";
-import verifyIDMiddleware from "../middlewares/verifyId.middleware";
-import ensureAuthMiddleware from "../middlewares/ensureAuth.middleware"
+import ensureAuthMiddleware from "../middlewares/ensureAuth.middleware";
 
 routes.post("/users", userCreateController);
 routes.post("/login", userLoginController);
-routes.get("/users", verifyisAdmMiddleware, getAllUsersController);
-routes.patch("/users/:id",ensureAuthMiddleware, verifyAdmUpdateMiddleware, updateUserController);
+routes.get(
+  "/users",
+  ensureAuthMiddleware,
+  verifyisAdmMiddleware,
+  getAllUsersController
+);
+routes.patch(
+  "/users/:id",
+  ensureAuthMiddleware,
+  verifyAdmUpdateMiddleware,
+  updateUserController
+);
 routes.delete(
   "/users/:id",
-  verifyDeleteisAdmMiddleware,
+  ensureAuthMiddleware,
   verifyisAdmMiddleware,
-  verifyIDMiddleware,
+  verifyisActiveMiddleware,
   deleteUserController
 );
 
