@@ -11,11 +11,12 @@ import verifyDeleteisAdmMiddleware from "../middlewares/deleteIsAdmin.middleware
 import verifyisAdmMiddleware from "../middlewares/isAdmin.middleware";
 import verifyAdmUpdateMiddleware from "../middlewares/verifyAdmUpdate.middleware";
 import verifyIDMiddleware from "../middlewares/verifyId.middleware";
+import ensureAuthMiddleware from "../middlewares/ensureAuth.middleware"
 
 routes.post("/users", userCreateController);
 routes.post("/login", userLoginController);
 routes.get("/users", verifyisAdmMiddleware, getAllUsersController);
-routes.patch("/users/:id", verifyAdmUpdateMiddleware, updateUserController);
+routes.patch("/users/:id",ensureAuthMiddleware, verifyAdmUpdateMiddleware, updateUserController);
 routes.delete(
   "/users/:id",
   verifyDeleteisAdmMiddleware,
