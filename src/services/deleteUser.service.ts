@@ -22,7 +22,7 @@ const deleteUserService = async (id: string) => {
   const newActive = false;
 
   await userRepository.update(account!.id, { isActive: newActive });
-  await userRepository.softDelete(account!.id);
+  // await userRepository.softDelete(account!.id);
 
   return true;
 };

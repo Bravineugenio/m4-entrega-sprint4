@@ -4,7 +4,7 @@ import 'dotenv/config'
 
 const ensureAuthMiddleware = async(req: Request, res: Response, next: NextFunction) => {
 
-    let token = req.headers.authorization
+    let token = req.headers.authorization?.split(' ')[1]
 
     if(!token){
         return res.status(401).json({
@@ -12,13 +12,17 @@ const ensureAuthMiddleware = async(req: Request, res: Response, next: NextFuncti
         })
     }
 
-    token = token.split(' ')[1]
-
     jwt.verify(token, process.env.JWT_SECRET as string, (error:any, decoded:any) => {
         if(error){
             return res.status(401).json({
                 message: 'Invalid token'
             })
+        }
+
+        req.user = {
+            isAdm: decoded.isAdm,
+            id: decoded.id
+
         }
 
         return next()

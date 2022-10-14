@@ -14,19 +14,31 @@ const verifyAdmUpdateMiddleware = async (
     token as string,
     process.env.JWT_SECRET as string,
     (err: any, decoded: any) => {
+
+      if(!req.user.isAdm){
+        return res.status(401).json({
+            message: 'User is not admin'
+        })
+    }
+
+    if(req.user.isAdm){
+      return next()
+  }
+
+
     
-      if (decoded!.isAdm === true && decoded!.id === id) {
-        next();
-      }
-      if (decoded!.isAdm === true && decoded!.id !== id) {
-        next();
-      }
-      if (decoded!.isAdm === false && decoded!.id === id) {
-        next();
-      }
-      if (decoded!.isAdm === false && decoded!.id !== id) {
-        res.status(401).json({ message: "Unauthorized" });
-      }
+      // if (req.user.isAdm === true && req.user.id === id) {
+      //   next();
+      // }
+      // if (req.user.isAdm === true && req.user.id !== id) {
+      //   next();
+      // }
+      // if (req.user.isAdm === false && req.user.id  === id) {
+      //   next();
+      // }
+      // if (req.user.isAdm === false && req.user.id !== id) {
+      //   res.status(401).json({ message: "Unauthorized" });
+      // }
     }
   );
 };
